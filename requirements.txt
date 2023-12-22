@@ -1,0 +1,11 @@
+fastapi
+pydantic-settings
+uvicorn
+aerich
+asyncpg
+tortoise-orm[asyncpg]
+tortoise-orm[accel]
+#firebase-admin
+httpx
+#uvloop
+orjson

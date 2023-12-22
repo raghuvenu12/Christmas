@@ -1,0 +1,32 @@
+# Local env file
+local.env
+prod.env
+
+# OSX internal files
+.DS_store
+*.icloud
+
+# local env
+env/
+
+# migrations
+migrations/
+
+# python cache
+*.pyc
+*__pycache__*
+
+
+#pytest files
+htmlcov/
+.coverage
+
+#log files
+*.log
+
+
+# IDEs like pycharm and VSCode
+.idea/
+.vscode/
+sql.sql
+
