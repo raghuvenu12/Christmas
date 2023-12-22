@@ -74,14 +74,14 @@ async def get_user(
     gender:str=Form(...)
 ):
     print(gender)
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    '''file_path = os.path.join(UPLOAD_DIR, file.filename)
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        shutil.copyfileobj(file.file, buffer)'''
 
    
    
     random_number = random.randint(1000, 9999)
-    '''img = await file.read()
+    img = await file.read()
     img = Image.open(BytesIO(img))
     img.thumbnail((200, 200))
     output = BytesIO()
@@ -99,8 +99,8 @@ async def get_user(
 
     # Upload the file to GCS
     blob = bucket.blob(destination_blob_name)
-    blob.upload_from_file(BytesIO(output.getvalue()), content_type="image/jpeg")'''
-    image_url = 
+    blob.upload_from_file(BytesIO(output.getvalue()), content_type="image/jpeg")
+    image_url=blob.public_url
     new_data = User(
         name=name,
         email=email,
