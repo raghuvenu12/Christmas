@@ -26,6 +26,7 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',path='assets/css/style.css')}}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	 
 </head>
 
@@ -40,21 +41,23 @@
       <!-- Main content START -->
       <div class="col-sm-10 col-md-8 col-lg-7 col-xl-6 col-xxl-5">
         <!-- Sign in START -->
-        <div class="card card-body text-center p-4 p-sm-5">
+        <div class="card card-body text-center p-4 p-sm-5 ">
+          
           <!-- Title -->
           <h1 class="mb-2">Enter Details</h1>
+          <div class="vstack gap-3">
           
           <!-- Form START -->
           <form class="mt-sm-4" method="post" action="/post/user" enctype="multipart/form-data">
             <!-- Email -->
-            <div class="mb-3 input-group-lg">
+            <div class="mb ">
               <input type="text" class="form-control" placeholder="Name" name="name">
             </div>
-            <div class="mb-3">
+            <div class="mb">
                 
                 <input type="email" class="form-control" id="emailInput" name="email" required placeholder="Write email here">
               </div>
-            <div class="input-group mb-3">
+            <div class="input-group ">
                 <label class="input-group-text" for="inputGroupFile01">Upload Profile Picture</label>
                 <input type="file" class="form-control" id="inputGroupFile01" name="file">
               </div>
@@ -65,20 +68,29 @@
                   Male
                 
               </div>
-              <div class="form-check">
+              <video width="160" height="160" controls>
+                <source src="{{url_for('static',path='assets/video/male.mp4')}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+              <div class="form-check ">
                 <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="female">
                 
                   Female
                 
               </div>
+              <video width="50" height="160" controls>
+                <source src="{{url_for('static',path='assets/video/female.mp4')}}" style="height: 30px; width: 30;"type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
             <!-- Remember me -->
 
             <!-- Button -->
             
-            <div class="d-grid"><button type="submit" style="background-color: palevioletred;" class="btn btn-lg text-white">Submit</button></div>
+            <div class="d-grid "><button type="submit" class="btn btn-lg btn-primary text-white mt-2">Submit</button></div>
             <!-- Copyright -->
             
           </form>
+        </div>
           <!-- Form END -->
         </div>
         <!-- Sign in START -->
@@ -102,7 +114,8 @@ JS libraries, plugins and custom scripts -->
 
 <!-- Theme Functions -->
 <script src="{{url_for('static',path='assets/js/functions.js')}}"></script>
-  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </body>
 </html>  
  
