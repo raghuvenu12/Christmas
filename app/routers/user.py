@@ -41,16 +41,16 @@ print(setting.max_otp_attempts)
 
 # Generate and print a random number between 100 and 9999
 
-UPLOAD_DIR = "/Users/raghunandanvenugopal/Downloads/us-main/app/templates/static/images_uploaded/"
+UPLOAD_DIR = "app/templates/static/images_uploaded/"
 
 # Create the directory if it doesn't exist
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 templates = Jinja2Templates(
-    directory="/Users/raghunandanvenugopal/Downloads/us-main/app/templates"
+    directory="app/templates"
 )
 os.environ[
     "GOOGLE_APPLICATION_CREDENTIALS"
-] = "/Users/raghunandanvenugopal/Desktop/demo/molten-complex-408603-13e3b41bd520.json"
+] = "app/credentials.json"
 Path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
 storage_client = storage.Client(Path)
 router = APIRouter()
@@ -60,7 +60,7 @@ router = APIRouter()
 async def login(request: Request):
     return templates.TemplateResponse("base.html", {"request": request})
 
-@router.post("/form")
+@router.get("/form")
 async def login(request: Request):
     return templates.TemplateResponse("form.html", {"request": request})
 
@@ -83,7 +83,7 @@ async def get_user(
     random_number = random.randint(1000, 9999)
     img = await file.read()
     img = Image.open(BytesIO(img))
-    img.thumbnail((200, 200))
+    #img.thumbnail((200, 200))
     output = BytesIO()
     img.convert("RGB").save(output, format="JPEG")
 
@@ -94,11 +94,12 @@ async def get_user(
     # Create a Google Cloud Storage client
 
     # Define the destination blob name (file name in the bucket)
-    last_record = await User.all().order_by('-id').first()
-    destination_blob_name = f"profiles/{last_record.id+1}_thumb.jpg"
+    #last_record = await User.all().order_by('-id').first()
+    destination_blob_name = f"profiles/photo_thumb.jpg"
 
     # Upload the file to GCS
     blob = bucket.blob(destination_blob_name)
+    blob.cache_control = 'no-store, no-cache, must-revalidate'
     blob.upload_from_file(BytesIO(output.getvalue()), content_type="image/jpeg")
     image_url=blob.public_url
     new_data = User(
@@ -152,3 +153,7 @@ async def verify_otp(request:Request,otp:int=Form(...)):
         await last_record.save()
     return templates.TemplateResponse("otp.html", {"request": request,"attempts":last_record.num_attempts})
     
+
+@router.get("/last")
+async def last(request:Request):
+    return templates.TemplateResponse("last.html", {"request": request})

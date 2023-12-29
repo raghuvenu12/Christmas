@@ -1,37 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Two Column Design</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .column {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .image-column {
+      background: url('static/assets/images/home.png');
+      background-size:100% 100%;
+      background-attachment: fixed;
+      background-size: 100vh;
+
+    }
+
+    .text-column {
+      background: #fff;
+    }
+
+    .text-content {
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .column {
+        flex: none;
+      }
+    }
+  </style>
 </head>
-<body style="background-image: url('/static/assets/images/christmas.jpeg'); background-size:cover;">
+<body>
 
-
-
-        <!-- Main content START -->
-        
-            <!-- Sign in START -->
-            <div class="card card-body text-center p-4 p-sm-5" style="background-image: url('/static/assets/images/christmas.jpeg'); background-size:cover;" >
-              
-                <p class="fs-2 text-white">Generate Your XMAS Greetings Video</p>
-                
-                <form method="post" action="/form">
-                    <!-- Email -->
-                    <!-- Add your email input field here if needed -->
-
-                    <!-- Button to go to another page -->
-                    <button type="submit">Start</button>
-                </form>
-           
-       
-        <!-- Main content END -->
+<div class="container">
+  <div class="column image-column">
     
+  </div>
+  <div class="column text-column">
+    <div class="text-content">
+      <h1>Welcome</h1>
+      <p>Make your AI generated new year greeting</p>
+      <a href="/form" class="button btn-lg">Start</a>
+      
+    </div>
+  </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>

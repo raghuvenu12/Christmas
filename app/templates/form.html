@@ -50,37 +50,53 @@
           <form class="mt-sm-4" method="post" action="/post/user" enctype="multipart/form-data">
             <!-- Email -->
             <div class="mb-2 ">
-              <input type="text" class="form-control" placeholder="Name" name="name">
+              <input type="text" class="form-control" placeholder="Name"  required name="name">
             </div>
             <div class="mb-2">
                 
                 <input type="email" class="form-control" id="emailInput" name="email" required placeholder="Write email here">
               </div>
             <div class="input-group mb-2">
-                <label class="input-group-text" for="inputGroupFile01">Upload Profile Picture</label>
-                <input type="file" class="form-control" id="inputGroupFile01" name="file">
+
+              
+                
+                <input type="file" class="form-control" id="inputGroupFile01" name="file" accept="image/*" required>
               </div>
+              <div class="my-4 ">
+                <p class="fw-bold"> Choose your Gender</p>
+           
+
+    
             <!-- New password -->
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="male">
-                
-                  Male
-                
-              </div>
-              <video width="160" height="160" controls>
-                <source src="{{url_for('static',path='assets/video/male.mp4')}}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-              <div class="form-check ">
-                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="female">
-                
-                  Female
-                
-              </div>
-              <video width="50" height="160" controls>
-                <source src="{{url_for('static',path='assets/video/female.mp4')}}" style="height: 30px; width: 30;"type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="container my-2">
+              
+                <div class="row">
+                  <div class="col-6">
+                   
+                      <input class="form-check-input mb-3" type="radio" name="gender" id="flexRadioDefault1" value="male" required>
+                      
+                        Male
+                      
+                   
+                    <img src="{{url_for('static',path='assets/video/male.gif')}}" width="160" height="160" >
+                    
+                  </div>
+                  <div class="col-6">
+                   
+                      <input class="form-check-input mb-3" type="radio" name="gender" id="flexRadioDefault2" value="female" required>
+                      
+                        Female
+                      
+                    
+                    <img src="{{url_for('static',path='assets/video/female.gif')}}" width="160" height="160" >
+                  </div>
+                </div>
+              
+            
+              
+              
+            </div>
+            </div>
             <!-- Remember me -->
 
             <!-- Button -->
