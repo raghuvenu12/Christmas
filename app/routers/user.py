@@ -155,13 +155,13 @@ async def verify_otp(request:Request,name:str,otp:int=Form(...)):
         if(n>3):
             target_url = "/form"
          
-            response = RedirectResponse(url=target_url)
+            response = RedirectResponse(url=target_url,status_code=303)
             return response
 
 
         last_record.num_attempts = n
         await last_record.save()
-    return templates.TemplateResponse("otp.html", {"request": request,"attempts":last_record.num_attempts})
+    return templates.TemplateResponse("otp.html", {"request": request,"attempts":last_record.num_attempts,"name":name})
     
 
 @router.get("/last")
