@@ -58,11 +58,17 @@ router = APIRouter()
 
 @router.get("/",name='login')
 async def login(request: Request):
-    return templates.TemplateResponse("base.html", {"request": request})
+    try:
+        return templates.TemplateResponse("base.html", {"request": request})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/form")
 async def login(request: Request):
-    return templates.TemplateResponse("form.html", {"request": request})
+    try:
+        return templates.TemplateResponse("form.html", {"request": request})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/post/user")
 async def get_user(
@@ -73,65 +79,69 @@ async def get_user(
     file: UploadFile = File(...),
     gender:str=Form(...)
 ):
-    print(gender)
+    
     '''file_path = os.path.join(UPLOAD_DIR, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)'''
 
    
    
-    random_number = random.randint(1000, 9999)
-    img = await file.read()
-    img = Image.open(BytesIO(img))
-    #img.thumbnail((200, 200))
-    output = BytesIO()
-    img.convert("RGB").save(output, format="JPEG")
+    try:
+        random_number = random.randint(1000, 9999)
+        img = await file.read()
+        img = Image.open(BytesIO(img))
+        #img.thumbnail((200, 200))
+        output = BytesIO()
+        img.convert("RGB").save(output, format="JPEG")
 
-    # Replace with your actual file name
+        # Replace with your actual file name
 
-    bucket = storage_client.bucket("christmas1234")
+        bucket = storage_client.bucket("christmas1234")
 
-    # Create a Google Cloud Storage client
+        # Create a Google Cloud Storage client
 
-    # Define the destination blob name (file name in the bucket)
-    #last_record = await User.all().order_by('-id').first()
-    destination_blob_name = f"profiles/photo_thumb.jpg"
+        # Define the destination blob name (file name in the bucket)
+        #last_record = await User.all().order_by('-id').first()
+        destination_blob_name = f"profiles/photo_thumb.jpg"
 
-    # Upload the file to GCS
-    blob = bucket.blob(destination_blob_name)
-    blob.cache_control = 'no-store, no-cache, must-revalidate'
-    blob.upload_from_file(BytesIO(output.getvalue()), content_type="image/jpeg")
-    image_url=blob.public_url
-    new_data = User(
-        name=name,
-        email=email,
+        # Upload the file to GCS
+        blob = bucket.blob(destination_blob_name)
+        blob.cache_control = 'no-store, no-cache, must-revalidate'
+        blob.upload_from_file(BytesIO(output.getvalue()), content_type="image/jpeg")
+        image_url=blob.public_url
+        new_data = User(
+            name=name,
+            email=email,
+            
+            image_url=image_url,
+            Gender=gender,
+            num_attempts=1,
+            otp=random_number
+        )
+        await new_data.save()
+        server=smtplib.SMTP("smtp.gmail.com",587)
+        print(server)
+        server.starttls()
+        server.login("raghu@launchxlabs.com","edar boft prtz mbsy")
+        ms=f"Your otp is {random_number}"
+        server.sendmail("raghu@launchxlabs.com",email,ms)
+        server.quit()
+
+        """ target_url = router.url_path_for(
+                "create" ,
+            ) 
+        target_url+=f"/{phone}" """
         
-        image_url=image_url,
-        Gender=gender,
-        num_attempts=1,
-        otp=random_number
-    )
-    await new_data.save()
-    server=smtplib.SMTP("smtp.gmail.com",587)
-    print(server)
-    server.starttls()
-    server.login("raghu@launchxlabs.com","edar boft prtz mbsy")
-    ms=f"your otp is {random_number}"
-    server.sendmail("raghu@launchxlabs.com",email,ms)
-    server.quit()
-
-    """ target_url = router.url_path_for(
-            "create" ,
-        ) 
-    target_url+=f"/{phone}" """
-    
-    
-    return templates.TemplateResponse("otp.html", {"request": request,"attempts":1})
+        
+        return templates.TemplateResponse("otp.html", {"request": request,"attempts":1,"name":name})
+    except Exception as e:
+        # Log the exception or handle it as needed
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/post/verify_otp")
-async def verify_otp(request:Request,otp:int=Form(...)):
-    last_record = await User.all().order_by('-id').first()
+@router.post("/post/verify_otp/{name}")
+async def verify_otp(request:Request,name:str,otp:int=Form(...)):
+    last_record = await User.filter(name=name).order_by('-id').first()
     if otp==last_record.otp:
         target_url = router.url_path_for(
             "last" ,
